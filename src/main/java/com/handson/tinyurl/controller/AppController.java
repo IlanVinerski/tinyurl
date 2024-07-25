@@ -14,9 +14,9 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.data.mongodb.core.query.Query;
-
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+
 
 
 import java.util.Date;
@@ -29,6 +29,7 @@ import static com.handson.tinyurl.model.UserClick.UserClickBuilder.anUserClick;
 import static com.handson.tinyurl.model.UserClickKey.UserClickKeyBuilder.anUserClickKey;
 import static com.handson.tinyurl.util.Dates.getCurMonth;
 import static org.springframework.data.util.StreamUtils.createStreamFromIterator;
+
 
 @RestController
 public class AppController {
@@ -48,9 +49,6 @@ public class AppController {
 
     @Autowired
     private MongoTemplate mongoTemplate;
-
-    @Autowired
-    private UserClickRepository userClickRepository;
 
     @RequestMapping(value = "/user", method = RequestMethod.POST)
     public User createUser(@RequestParam String name) {
@@ -103,6 +101,8 @@ public class AppController {
         }
     }
 
+    @Autowired
+    private UserClickRepository userClickRepository;
 
     @RequestMapping(value = "/user/{name}/clicks", method = RequestMethod.GET)
     public List<UserClickOut> getUserClicks(@RequestParam String name) {
@@ -111,7 +111,6 @@ public class AppController {
                 .collect(Collectors.toList());
         return userClicks;
     }
-
     private String generateTinyCode() {
         String charPool = "ABCDEFHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
         StringBuilder res = new StringBuilder();
@@ -120,5 +119,8 @@ public class AppController {
         }
         return res.toString();
     }
+
+
+
 
 }
